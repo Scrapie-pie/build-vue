@@ -1,0 +1,33 @@
+{
+  "name": "markformelle",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@verstaerker/vue-bem": "^1.2.0",
+    "@vue/babel-helper-vue-jsx-merge-props": "^1.4.0",
+    "@vue/babel-preset-jsx": "^1.4.0",
+    "core-js": "^3.8.3",
+    "html-loader": "^4.2.0",
+    "jquery": "^3.6.1",
+    "lodash": "^4.17.21",
+    "vue": "^2.6.14",
+    "vue-router": "3",
+    "vue-slick": "^1.2.0",
+    "vue-slider-component": "^3.2.22",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "file-loader": "^6.2.0",
+    "sass": "^1.32.7",
+    "sass-loader": "^12.0.0",
+    "vue-svg-loader": "^0.16.0",
+    "vue-template-compiler": "^2.6.14"
+  }
+}
