@@ -1,21 +1,22 @@
 <template>
-  <form class="input-search" @submit.prevent="submit">
+  <form class="input-search">
     <div class="input-search__wrapper">
-      <div class="input-search__query" @click="focusing">
-        <BaseIcon icon="search-query" />
-        <BaseInput type="text" placeholder="Поиск" ref="input" />
+      <div class="input-search__query" @click="onClick">
+        <BaseIcon icon="search" class="input-search__icon-search"/>
+        <BaseInput type="text" placeholder="Поиск" ref="input"/>
       </div>
-      <BaseButton>Button</BaseButton>
+      <BaseIcon icon="close"/>
     </div>
   </form>
 </template>
 
 <script>
-import BaseIcon from './BaseIcon.vue';
+import BaseSvg from './BaseSvg.vue';
 import BaseButton from './BaseButton.vue';
 import BaseContainer from './BaseContainer.vue';
 import BaseInput from "@/components/BaseInput";
 import BaseFieldTest from "@/components/Test/BaseFieldTest";
+import BaseIcon from "@/components/BaseIcon";
 export default {
   name: 'InputSearch',
   data() {
@@ -24,19 +25,14 @@ export default {
     }
   },
   methods: {
-    submit() {
-      console.log(this.value)
-    },
-    focusing() {
-      console.log(this.$refs.input)
-      this.$refs.input.focus();
+    onClick(event) {
+      this.$refs.input.focus()
     }
-
-
   },
 
   components: {
     BaseIcon,
+    BaseSvg,
     BaseButton,
     BaseContainer,
     BaseInput,
@@ -47,23 +43,34 @@ export default {
 
 <style lang="scss">
 .input-search {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #6ba9fb;
-  width: 100%;
-  max-width: 400px;
-
   &__wrapper {
-    @include flex-it;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #E5E5E5;
+    border-radius: 15px;
+  }
+  &__query {
     width: 100%;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    cursor: pointer;
   }
 
-  &__query {
-    @include flex-it(row, 10px);
-    align-items: center;
-    width: 100%;
-    padding: 0 10px;
+  &__icon {
+    &-search {
+      width: 102px;
+      border-right: 1px solid #E5E5E5;
+      background: #F4F4F4;
+      border-radius: 15px;
+      @include flex-centralize;
+      //height: 100%;
+    }
+  }
+
+  .input {
+    height: 38px;
   }
 }
 </style>

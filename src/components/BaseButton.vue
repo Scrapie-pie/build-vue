@@ -1,13 +1,13 @@
 <template>
   <button class="button" :class="classMod">
-    <BaseIcon v-if="hasIconLeft" :icon="computedIcon"/>
+    <BaseSvg v-if="hasIconLeft" :icon="computedIcon"/>
     <slot></slot>
-    <BaseIcon v-if="hasIconRight" :icon="computedIcon"/>
+    <BaseSvg v-if="hasIconRight" :icon="computedIcon"/>
   </button>
 </template>
 
 <script>
-import BaseIcon from './BaseIcon.vue';
+import BaseSvg from './BaseSvg.vue';
 
 export default {
   name: 'BaseButton',
@@ -45,7 +45,7 @@ export default {
     console.log(this.iconLeft)
   },
   components: {
-    BaseIcon
+    BaseSvg
   }
 }
 </script>

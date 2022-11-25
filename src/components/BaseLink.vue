@@ -1,29 +1,29 @@
 <template>
-  <component :is="tag" :href="href" class="base-link">
+  <component :is="tag" :href="href" class="link">
     <slot></slot>
-    <BaseIcon v-if="icon" :icon="icon"/>
   </component>
 </template>
 
 <script>
-import BaseIcon from './BaseIcon.vue';
+import BaseSvg from './BaseSvg.vue';
 export default {
   name: "BaseLink",
   props: {
     tag:  { type: String, default: 'a' },
     href: { type: String, default: '#' },
-    icon: String,
+    //isBlock: Boolean,
+    // icon: String,
   },
   components: {
-    BaseIcon
+    BaseSvg
   }
 }
 </script>
 
 <style lang="scss">
-  .base-link {
-    @include flex-it(row, 15px, true);
-    align-items: center;
-    color: get-var(color, link);
-  }
+.link {
+  //@include flex-it(row, 15px, true);
+  //align-items: center;
+  //color: get-var(color, link);
+}
 </style>

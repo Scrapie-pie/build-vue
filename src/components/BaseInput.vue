@@ -51,17 +51,16 @@ export default {
       console.log(this.$refs.input)
       this.$refs.input.focus();
     }
+  },
+  mounted() {
+    this.$emit('mounted', this.$el.value)
   }
 }
 </script>
 
 <style lang="scss">
-@import "../assets/scss/common";
 .input {
-  $self: &;
-  &#{$self}--primary {
-    @extend .common-input;
-    padding: 12px 13px;
-  }
+
+
 }
 </style>

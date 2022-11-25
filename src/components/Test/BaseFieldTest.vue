@@ -1,45 +1,54 @@
 <template>
-  <div class="field" :class="[filledClass, `field-${type}`]">
+  <div class="field" :class="classArray">
     <span v-if="label" class="field-name">
       {{label}}
     </span>
-    <div class="field-wrapper">
-      <div class="field-action">
+    <div :class="`field-wrapper`">
+      <slot name="before"></slot>
+      <div class="field-inline">
         <slot name="left"></slot>
-        <div class="field-fit">
-          <div class="field-input" ref="content">
-            <slot></slot>
-          </div>
+        <div class="field-action">
+          <slot>
+            <BaseTextarea
+                v-if="type === 'textarea'"
+                v-bind="$attrs"
+                v-on="listeners"
+            />
+            <BaseInput
+                v-else
+                v-bind="$attrs"
+                v-on="listeners"
+                :type="type"
+                ref="input"
+                :placeholder="placeholderMod === 'default' ? placeholder : null"
+            />
+          </slot>
           <span
-            v-if="placeholder"
-            v-show="isShowingPlaceholder"
-            class="field-placeholder"
-            :class="placeholderClass"
+              v-if="placeholder && placeholderMod !== 'default'"
+              v-show="isShowPlaceholder"
+              class="field-placeholder"
+              :class="placeholderClass"
           >
             {{placeholder}}
           </span>
         </div>
+        <slot name="right"></slot>
       </div>
-      <slot name="right"></slot>
+      <slot name="after"></slot>
     </div>
   </div>
 </template>
 
 <script>
-import BaseInput from '../BaseInput.vue';
-import BaseTextarea from '../BaseTextarea.vue';
-import BaseLabel from '../BaseLabel.vue';
-import BaseIcon from '../BaseIcon.vue';
-import BaseButton from '../BaseButton.vue';
 
+import BaseTextarea from "@/components/BaseTextarea";
+import BaseInput from "@/components/BaseInput";
 export default {
   name: 'BaseFieldTest',
   data() {
     return {
-      isMounted: false,
-      isShowingPlaceholder: true,
-      filledClass: '',
-      inputElement: null,
+      value: '',
+      isFocused: false,
     }
   },
   props: {
@@ -47,54 +56,58 @@ export default {
       type: String,
       default: 'text',
     },
-    isPopupPlaceholder: {
-      type: Boolean,
-      default: false
-    },
-    isCustomPlaceholder: {
-      type: Boolean,
-      default: false,
-    },
     label: String,
     placeholder: String,
-    icon: String,
-    isEditableBlock: {
-      type: Boolean,
-      default: false,
-    }
+    placeholderMod: {
+      type: String,
+      validator: (value) => ['default', 'inline', 'popup'].includes(value),
+      default: 'default'
+    },
   },
   inheritAttrs: false,
   computed: {
+    classArray() {
+      return [
+        this.type === 'textarea' ? "field_textarea" : "field_input",
+        { "field_filled": this.value.length },
+        { "field_focused": this.isFocused },
+        // this.placeholderMod === 'popup' ? 'field_popup' : ''
+      ]
+    },
     placeholderClass() {
-      if (this.isPopupPlaceholder) {
-        return `field-placeholder--popup`
-      } else {
-        return `field-placeholder--custom`
+      switch (this.placeholderMod) {
+        case 'popup': return `field-placeholder_popup`;
+        case 'inline': return '';
       }
     },
-  },
-  methods: {
-    showingPlaceholder() {
-      let value = this.inputElement.value;
-      this.isShowingPlaceholder = !value.length || this.isPopupPlaceholder;
+    isShowPlaceholder() {
+      switch (this.placeholderMod) {
+        case 'popup': return true;
+        case 'inline': return !this.value.length && !this.isFocused;
+      }
     },
-    filledClassHandler() {
-      let value = this.inputElement.value;
-      this.filledClass = value.length ? 'field_filled' : '';
+    listeners() {
+      let vm = this;
+      return Object.assign({},
+          this.$listeners,
+          {
+            input(value) {
+              vm.value = value;
+              vm.$emit('input', value);
+            },
+            mounted(initValue) {
+              vm.value = initValue;
+            },
+            focus() { vm.isFocused = true },
+            blur() { vm.isFocused = false }
+          }
+      )
     },
-
-  },
-  mounted() {
-    this.inputElement = this.$refs.content.querySelector('input')
-    this.inputElement.addEventListener('input', this.showingPlaceholder)
-    this.inputElement.addEventListener('input', this.filledClassHandler)
   },
   components: {
     BaseInput,
-    BaseTextarea,
-    BaseLabel,
-    BaseIcon,
-    BaseButton,
+    BaseTextarea
+
   }
 }
 </script>
@@ -112,31 +125,26 @@ export default {
     display: flex;
     align-items: center;
   }
-  &-input {
-    position: relative;
-    @include flex-it(row);
-    align-items: center;
-    width: 100%;
-  }
-  #{$self}-action {
+  #{$self}-inline {
     position: relative;
     display: flex;
     align-items: center;
     width: 100%;
     height: 100%;
+    padding: 0 15px;
     font-size: 14px;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 5px;
-    border: 1px solid #C7C7C7;
-    border-right-color: transparent;
+    border: 1px solid red;
+    padding-left: 20px;
   }
-  #{$self}-fit {
+  #{$self}-action {
     width: 100%;
     position: relative;
     height: 100%;
     display: flex;
     align-items: center;
     cursor: text;
+    //margin-left: 12px;
+    font-weight: 300;
   }
   #{$self}-placeholder {
     position: absolute;
@@ -145,8 +153,12 @@ export default {
     pointer-events: none;
     font-size: 14px;
     transition: .25s ease-out;
+    line-height: 0;
   }
-  &-text, &-password, &-mail {
+  .input::placeholder, #{$self}-placeholder {
+    color: currentColor;
+  }
+  &_input {
     #{$self}-placeholder {
       top: 50%;
       transform: translateY(-50%);
@@ -154,8 +166,6 @@ export default {
   }
   .input, .textarea {
     width: 100%;
-    font-weight: 300;
-
     &[required] + #{$self}-placeholder {
       &:after {
         content: ' *';
@@ -163,7 +173,7 @@ export default {
       }
     }
   }
-  &-textarea {
+  &_textarea {
     padding-top: 60px;
     .textarea {
       height: 1em;
@@ -174,17 +184,25 @@ export default {
     }
   }
 
-  .input:focus + #{$self}-placeholder--popup {
+  &_filled .input + #{$self}-placeholder_popup,
+  .input:focus + #{$self}-placeholder_popup {
     font-size: 16px;
     top: -10px;
     transition: .1s ease-in;
   }
-  &_filled {
-    .input + #{$self}-placeholder--popup {
-      font-size: 16px;
-      top: -10px;
-      transition: .1s ease-in;
-    }
-  }
+
+  //&_popup#{&}_filled, &_popup#{&}_focused & {
+  //
+  //  &-action {
+  //    position: static;
+  //  }
+  //  &-inline {
+  //    position: relative;
+  //  }
+  //}
+  //&_filled & {
+  //
+  //}
+
 }
 </style>

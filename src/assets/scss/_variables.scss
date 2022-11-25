@@ -2,15 +2,16 @@
 
 $_fix-scroll: false;
 $_grid-fixed: true;
-$_fs: 14px;
+$_fs: 15px;
 $variables: (
-  container: 1210px,
+  container: 1460px,
   edge-padding: 15px,
   font-size: (
     base: $_fs, // body
     h1: relative-unit(80px),
     h2: relative-unit(28px),
-    h3: relative-unit(26px),
+    h3: relative-unit(20px),
+				  //18
     h4: relative-unit(25px),
     h5: relative-unit(20px),
     h6: relative-unit(18px),
@@ -23,11 +24,11 @@ $variables: (
   ),
   space: (
     xxl: relative-unit(45px),
-    xl:  relative-unit(40px),
-    lg:  relative-unit(30px),
-    md:  relative-unit(25px),
+    xl: relative-unit(40px),
+    lg: relative-unit(30px),
+    md: relative-unit(25px),
     sm:  relative-unit(50px),
-    xs:  relative-unit(40px),
+    xs: relative-unit(40px),
     micro-xxl: relative-unit(30px),
     micro-xl: 25px,
     micro-lg: 20px,
@@ -40,11 +41,11 @@ $variables: (
   //   blocks: relative-font(100px),
   // ),
   breakpoint: (
-    xs:  320px,
-  	sm:  576px,
-  	md:  768px,
-  	lg:  992px,
-  	xl:  1024px,
+    xs: 320px,
+  	sm: 576px,
+  	md: 768px,
+  	lg: 992px,
+  	xl: 1024px,
   	xxl: 1200px,
   ),
   color: (

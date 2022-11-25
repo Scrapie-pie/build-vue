@@ -3,7 +3,15 @@
 
 //@import "_variables";
 
-@function get-var($key, $map-key: null) {
+@function get-var($key, $map-key: null, $bind-with-css: true) { //remove last
+  //@if $bind-with-css {
+  //  @if $map-key {
+  //    @return "--#{$map-key}-#{$key}";
+  //  } @else {
+  //    @return "--#{$key}";
+  //  }
+  //}
+
   $value: map-get($variables, $key); // doesn't work here?
 
   //@if is-map($value) { //DOESN'T WORK HERE?
@@ -13,6 +21,17 @@
 
   @return $value;
 }
+
+//@function get-css-var($key, $map-key: null) {
+//  $value: map-get($variables, $key); // doesn't work here?
+//
+//  //@if is-map($value) { //DOESN'T WORK HERE?
+//  @if type-of($value) == 'map' {
+//    $value: map-get($value, $map-key);
+//  }
+//
+//  @return $value;
+//}
 
 @function map-get-strict($map, $key) {
   @if map-has-key($map, $key) {

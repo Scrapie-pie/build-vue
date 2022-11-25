@@ -1,34 +1,29 @@
 <template>
-  <i :class="`icon icon_${this.icon}`">
-    <component
-      :is="currentComponent"
-      :width="relativeSize.width"
-      :height="relativeSize.height"
-      ref="icon"
-    />
-  </i>
+  <BaseSvg v-bind="$attrs" :icon="icon" :init-font-size="fontSize" :class="classSub" />
 </template>
 
 <script>
-const capitalize = (string) => string[0].toUpperCase() + string.slice(1);
-const toComponentName = (name) => 'Icon' + name.split(/[-|_]/).map(chunk => capitalize(chunk)).join('');
-const requireComponents = {};
-const requireComponentContext = require.context('../assets/icons/', false, /\.svg$/i, 'lazy'); //lazy!
-requireComponentContext.keys().forEach((fileName, index) => {
-  const componentName = toComponentName(fileName.match(/\/(.+?)\.svg$/)[1]);
-  const componentConfig = requireComponentContext(fileName);
-  requireComponents[componentName] = () => componentConfig;
-});
-
+import BaseSvg from "@/components/BaseSvg";
 export default {
   name: 'BaseIcon',
+  inheritAttrs: false,
   data() {
     return {
-      originalSize: {
-        width: null,
-        height: null,
-      },
-      onceUpdated: false,
+      sizes: {
+        location: {
+          default: '19px',
+          circle: '24px'
+        },
+        logo: {
+          default: '40px',
+        },
+        search: {
+          default: '22px',
+        },
+        close: {
+          default: '12px',
+        },
+      }
     }
   },
   props: {
@@ -36,61 +31,33 @@ export default {
       type: String,
       required: true
     },
-    hasFill: {
-      type: Boolean,
-      default: false
+    initFontSize: {
+      type: String,
     },
-    growByHeight: {
-      type: Boolean,
-      default: true
-    },
+    classMod: {
+      type: String,
+      required: false,
+      validator: (value) => ['default', 'circle'].includes(value),
+      //default: 'default'
+    }
   },
   computed: {
-    currentComponent() {
-      return toComponentName(this.icon);
+    fontSize() {
+      if (this.initFontSize) return this.initFontSize;
+      return this.sizes[this.icon]?.[this.classMod || 'default'];
     },
-    widthToHeight() {
-      return (this.originalSize.width / this.originalSize.height).toFixed(2);
-    },
-    relativeSize() {
-      if (!this.onceUpdated) {
-        return this.originalSize;
-      }
-      const width = this.growByHeight ? `${this.widthToHeight}em` : '1em';
-      const height = this.growByHeight ? '1em' : `${1 / this.widthToHeight}em`;
-      return { width, height };
+    classSub() {
+      if (this.classMod) return `icon_${this.classMod}`;
     }
   },
   methods: {
-    determineOriginalSize() {
-      const viewBox = this.$refs.icon.getAttribute('viewBox').split(' ').map(n => Number(n));
-      this.originalSize = { width: viewBox[2], height: viewBox[3] };
-    },
-    recursivelyRemoveFill(el = this.$refs.icon) {
-      if (!el) return;
-      el.removeAttribute('fill');
-      [].forEach.call(el.children, child => {
-        this.recursivelyRemoveFill(child);
-      });
-    }
-  },
-  mounted() {
-    //console.log(this.$refs.icon)
-  },
-  updated() {
-    if (!this.onceUpdated) {
-      if (this.$refs.icon.nodeName === 'svg') {
-        this.determineOriginalSize();
-        if (this.hasFill) {
-          this.recursivelyRemoveFill();
-        }
-      }
-      this.onceUpdated = true;
-    }
 
   },
+  mounted() {
+    console.log(this.fontSize)
+  },
   components: {
-    ...requireComponents
+    BaseSvg
   },
 };
 
@@ -99,8 +66,18 @@ export default {
 
 <style lang="scss">
 .icon {
-  display: flex;
-  vertical-align: middle;
+  svg {
+    fill: currentColor;
+  }
+  &_circle {
+    width: 40px;
+    height: 40px;
+    background-color: #F1BD45;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    fill: #0075FF;
+  }
 }
-
 </style>
