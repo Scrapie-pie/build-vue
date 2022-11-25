@@ -47,15 +47,22 @@ export default {
   align-items: center;
   //justify-content: center;
 
-  @each $key, $value in map-get($variables, space) {
-    &_space_#{$key} {
-      //gap: var(--color_#{$key});
-      gap: $value;
-    }
-    &_space_phone_#{$key} {
-      //gap: var(--color_#{$key});
-      gap: $value;
+  &_space {
+    &_micro-xxl {
+      @include to-responsive(gap, get-var(space, micro-sm), get-var(space, micro-xxl));
     }
   }
+
+  //@each $key, $value in map-get($variables, space) {
+  //  &_space_#{$key} {
+  //    //gap: var(--color_#{$key});
+  //    //@include to-responsive(gap, $value);
+  //    gap: to-unit($value, em);
+  //  }
+  //  &_space_phone_#{$key} {
+  //    //gap: var(--color_#{$key});
+  //    gap: $value;
+  //  }
+  //}
 }
 </style>

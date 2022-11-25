@@ -44,7 +44,20 @@
         </form>
       </BaseSections>
 
+      <BaseGrid>
+        <div class="page-ui__item"
+             v-for="(value, key, index) in cssVariables.colors" :key="key"
+             :style="{backgroundColor: value}">
+        </div>
+      </BaseGrid>
     </BaseContainer>
+
+    <BaseGrid>
+      <div class="page-ui__item"
+           v-for="(value, key, index) in cssVariables.colors" :key="key"
+           :style="{backgroundColor: value}">
+      </div>
+    </BaseGrid>
   </div>
 
 </template>
@@ -66,6 +79,7 @@ import {getCSSVars} from "@/assets/js/scripts";
 import BaseFlex from "@/components/BaseFlex";
 import BaseInput from "@/components/BaseInput";
 import BaseFieldTest from "@/components/Test/BaseFieldTest";
+import BaseGrid from "@/components/BaseGrid";
 
 export default {
   name: 'UI',
@@ -86,6 +100,7 @@ export default {
 
   },
   components: {
+    BaseGrid,
     BaseFieldTest,
     BaseInput,
     BaseFlex,
@@ -118,6 +133,9 @@ export default {
     background-color: var(--color_primary);
     border-radius: 50%;
     border: 1px solid #f8e7ff;
+  }
+  &__item {
+    height: 200px;
   }
 }
 </style>

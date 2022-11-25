@@ -1362,11 +1362,10 @@
   margin: 0 auto;
 
   @if $edge-padding {
-    padding-left: $edge-padding;
-    padding-right: $edge-padding;
+    //padding-left: $edge-padding;
+    //padding-right: $edge-padding;
   }
-  //padding-left: 15px;
-  //padding-right: 15px;
+
   max-width: 100%;
 
 

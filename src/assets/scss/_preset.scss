@@ -15,7 +15,7 @@
 html {
   $min_width: 280px;
   $max_width: get-var(container);
-  $min_font: 14px;
+  $min_font: $_min-font;
   $max_font:  get-var(font-size, base);
 
   box-sizing: border-box !important;

@@ -87,8 +87,8 @@
   @return if($minus, -$result, $result);
 }
 
-@function to-unit($value, $to-unit: 'em', $base-font: $_fs, $max-viewport-for-vw-vh: 1530px) {
-  // if not $_fs replace $base-font default on 16px
+@function to-unit($value, $to-unit: 'em', $base-font: $_max-font, $max-viewport-for-vw-vh: 1530px) {
+  // if not $_max-font replace $base-font default on 16px
   $result: $value;
   $source-unit: unit($value);
   $value: del-unit($value);

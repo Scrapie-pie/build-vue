@@ -2,12 +2,13 @@
 
 $_fix-scroll: false;
 $_grid-fixed: true;
-$_fs: 15px;
+$_min-font: 12px;
+$_max-font: 15px;
 $variables: (
   container: 1460px,
   edge-padding: 15px,
   font-size: (
-    base: $_fs, // body
+    base: $_max-font, // body
     h1: relative-unit(80px),
     h2: relative-unit(28px),
     h3: relative-unit(20px),
@@ -15,21 +16,21 @@ $variables: (
     h4: relative-unit(25px),
     h5: relative-unit(20px),
     h6: relative-unit(18px),
-    h1_mobile: relative-unit(40px),
-    h2_mobile: relative-unit(16px),
-    h3_mobile: relative-unit(22px),
-    h4_mobile: relative-unit(22px),
-    h5_mobile: relative-unit(16px),
-    h6_mobile: relative-unit(12px),
+	h1_mobile: relative-unit(40px), //remove relative-unit
+	h2_mobile: relative-unit(16px), //remove relative-unit
+	h3_mobile: relative-unit(22px), //remove relative-unit
+	h4_mobile: relative-unit(22px), //remove relative-unit
+	h5_mobile: relative-unit(16px), //remove relative-unit
+	h6_mobile: relative-unit(12px), //remove relative-unit
   ),
   space: (
-    xxl: relative-unit(45px),
-    xl: relative-unit(40px),
-    lg: relative-unit(30px),
-    md: relative-unit(25px),
-    sm:  relative-unit(50px),
-    xs: relative-unit(40px),
-    micro-xxl: relative-unit(30px),
+    xxl: 45px, //relative-unit(45px)
+    xl: 40px, //relative-unit(40px)
+    lg: 30px, //relative-unit(30px)
+    md: 25px, //relative-unit(25px)
+    sm:  50px, //relative-unit(50px)
+    xs: 40px, //relative-unit(40px)
+    micro-xxl: 30px,
     micro-xl: 25px,
     micro-lg: 20px,
     micro-md: 15px,
